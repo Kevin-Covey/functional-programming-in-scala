@@ -109,16 +109,10 @@ object List {
     }
 
   def appendFold[A](a1: List[A], a2: List[A]): List[A] =
-    a1 match {
-      case Nil => a2
-      case Cons(h, t) => foldRight(a1, a2)((v, a) => Cons(v, a))
-    }
+    foldRight(a1, a2)((v, a) => Cons(v, a))
 
   def concat[A](lists: List[List[A]]): List[A] =
-    lists match {
-      case Nil => Nil
-      case Cons(h, t) => foldLeft(t, h)(appendFold)
-    }
+    foldLeft(lists, List[A]())(appendFold)
 
   def increment(l: List[Int]): List[Int] =
     foldRight(l, List[Int]())((v, a) => Cons(v + 1, a))
