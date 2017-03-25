@@ -123,4 +123,12 @@ object List {
   def map[A, B](l: List[A])(f: A => B): List[B] =
     foldRight(l, List[B]())((v, a) => Cons(f(v), a))
 
+  def filter1[A](l: List[A])(f: A => Boolean): List[A] =
+    concat(map(l)(a => if (f(a)) List(a) else Nil))
+
+  def flatMap[A, B](l: List[A])(f: A => List[B]): List[B] =
+    concat(map(l)(f))
+
+  def filter[A](l: List[A])(f: A => Boolean): List[A] =
+    flatMap(l)(a => if (f(a)) List(a) else Nil)
 }

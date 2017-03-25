@@ -118,4 +118,16 @@ class List$Test extends org.scalatest.FunSuite with Matchers {
     map(List(1, 2.5, 3.1))(toS) shouldBe List("1.0", "2.5", "3.1")
   }
 
+  test("filter1()") {
+    filter1(List(1, 2, 3, 4, 5, 6))(i => i % 2 == 0) shouldBe List(2, 4, 6)
+  }
+
+  test("flatMap()") {
+    flatMap(List(1, 2, 3))(i => List(i, i)) shouldBe List(1, 1, 2, 2, 3, 3)
+  }
+
+  test("filter()") {
+    filter(List(1, 2, 3, 4, 5, 6))(i => i % 2 == 0) shouldBe List(2, 4, 6)
+  }
+
 }
