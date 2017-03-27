@@ -131,4 +131,37 @@ object List {
 
   def filter[A](l: List[A])(f: A => Boolean): List[A] =
     flatMap(l)(a => if (f(a)) List(a) else Nil)
+
+  def addLists(l1: List[Int], l2: List[Int]): List[Int] =
+    (l1, l2) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1 + h2, addLists(t1, t2))
+    }
+
+  def zipWith[A, B, C](l1: List[A], l2: List[B])(f: (A, B) => C): List[C] =
+    (l1, l2) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1, h2), zipWith(t1, t2)(f))
+    }
+
+  @annotation.tailrec
+  def hasSubsequence[A](l: List[A], sub: List[A]): Boolean = {
+    @annotation.tailrec
+    def nextMatches(list: List[A], subList: List[A]): Boolean = {
+      (list, subList) match {
+        case (_, Nil) => true
+        case (Nil, _) => false
+        case (Cons(h1, t1), Cons(h2, t2)) if h1 == h2 => nextMatches(t1, t2)
+        case _ => false
+      }
+    }
+
+    (l, sub) match {
+      case (Nil, _) => sub == Nil
+      case (Cons(h1, t1), Cons(h2, t2)) if h1 == h2 => nextMatches(t1, t2)
+      case (Cons(_, t1), _) => hasSubsequence(t1, sub)
+    }
+  }
 }

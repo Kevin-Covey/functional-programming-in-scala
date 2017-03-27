@@ -130,4 +130,37 @@ class List$Test extends org.scalatest.FunSuite with Matchers {
     filter(List(1, 2, 3, 4, 5, 6))(i => i % 2 == 0) shouldBe List(2, 4, 6)
   }
 
+  test("addLists()") {
+    addLists(List(1, 2, 3), Nil) shouldBe Nil
+    addLists(Nil, List(4, 5, 6)) shouldBe Nil
+    addLists(List(1, 2, 3), List(4, 5, 6)) shouldBe List(5, 7, 9)
+  }
+
+  test("zipWith()") {
+    def add(a: Int, b: Int): Int = a + b
+
+    zipWith(List(1, 2, 3), Nil)(add) shouldBe Nil
+    zipWith(Nil, List(4, 5, 6))(add) shouldBe Nil
+    zipWith(List(1, 2, 3), List(4, 5, 6))(add) shouldBe List(5, 7, 9)
+  }
+
+  test("hasSubsequence") {
+    val list = List(1, 2, 3, 4)
+
+    hasSubsequence(list, Nil) shouldBe true
+    hasSubsequence(list, List(1)) shouldBe true
+    hasSubsequence(list, List(2)) shouldBe true
+    hasSubsequence(list, List(3)) shouldBe true
+    hasSubsequence(list, List(4)) shouldBe true
+    hasSubsequence(list, List(1, 2)) shouldBe true
+    hasSubsequence(list, List(2, 3)) shouldBe true
+    hasSubsequence(list, List(3, 4)) shouldBe true
+    hasSubsequence(list, List(1, 2, 3)) shouldBe true
+    hasSubsequence(list, List(2, 3, 4)) shouldBe true
+
+    hasSubsequence(list, List(5)) shouldBe false
+    hasSubsequence(list, List(1, 3)) shouldBe false
+    hasSubsequence(list, List(1, 3, 4)) shouldBe false
+  }
+
 }
